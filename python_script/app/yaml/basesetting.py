@@ -20,10 +20,14 @@ class BaseSettings:
         # else:
         #     self.BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         self.BASE_DIR_APP=os.path.join(self.BASE_DIR,'app')
+        self.BASE_DIR_PRJ = os.path.join(self.BASE_DIR, 'project')
         self.BASE_DIR_TAMP = os.path.join(self.BASE_DIR, 'temp')
         self.BASE_DIR_CONF = os.path.join(self.BASE_DIR_APP, 'yaml')
         self.BASE_DIR_LOG = os.path.join(self.BASE_DIR_APP, 'logging')
         self.BASE_DIR_REPORT = os.path.join(self.BASE_DIR, 'report')
+        self.BASE_DIR_EXREPORT = os.path.join(self.BASE_DIR, 'exreport')
+        self.BASE_DIR_CSV = os.path.join(self.BASE_DIR, 'csv')
+        self.BASE_DIR_DAT = os.path.join(self.BASE_DIR, 'dat')
         try:
             with open(os.path.join(self.BASE_DIR_CONF, 'setting.yaml'), 'r', encoding='utf-8') as yaml_config_file:
                 self.CONFIG = yaml.safe_load(yaml_config_file)

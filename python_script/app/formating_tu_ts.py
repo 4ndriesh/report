@@ -8,8 +8,8 @@ class TuTs:
         in_param=pd.concat(dataFrameTamp.values()).iloc[:, 1]
         TU = TU[~TU[PP2].astype(str).str.contains('--', na=False)]
         rows = list(TU[TU[Name_TU].isin(in_param)].index)
-        rows.append(TU.last_valid_index())
-        dict_for_write = dict(map(lambda x: (TU.loc[rows[x], Name_TU], TU.loc[rows[x]:rows[x + 1]]), range(0, len(rows) - 1)))
+        rows.append(TU.last_valid_index()+1)
+        dict_for_write = dict(map(lambda x: (TU.loc[rows[x], Name_TU], TU.loc[rows[x]:rows[x + 1]-1]), range(0, len(rows) - 1)))
         sheets_tampl=iter(sheets_tampl)
         next(sheets_tampl)
         for key in sheets_tampl:

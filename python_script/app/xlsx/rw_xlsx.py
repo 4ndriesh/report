@@ -39,13 +39,13 @@ class Xlsx:
     def copy_xlsx(self,path_temp,path_temp_to):
         shutil.copy(path_temp, path_temp_to)
 
-    @validate_args
-    def read_csv(self,path):
-            return pd.read_csv(path, encoding='cp1251', delimiter=';', skiprows=1)
+    # @validate_args
+    def read_csv(self,path='',skiprows=1,delimiter=';'):
+            return pd.read_csv(path, encoding='cp1251', delimiter=delimiter, skiprows=skiprows)
 
     def write_to_excel(self, data_for_record,startrow, index, path, conv_file):
         mv = load_workbook(path)
-        with pd.ExcelWriter(path, engine='openpyxl',engine_kwargs={'encoding' : "cp1251"} ) as write_to_report:
+        with pd.ExcelWriter(path, engine='openpyxl') as write_to_report:
             write_to_report.book = mv
             write_to_report.sheets = dict((ws.title, ws) for ws in mv.worksheets)
             for Sheet in data_for_record.keys():

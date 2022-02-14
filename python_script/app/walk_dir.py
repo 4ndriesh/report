@@ -5,7 +5,9 @@ from openpyxl import load_workbook, Workbook
 
 dir_filters = {
     'project': re.compile('.*(\.xlsx)$'),
-    'report': re.compile('.*(\.xlsx)$')
+    '3': re.compile('.*(\.xlsx)$'),
+    '44': re.compile('.*(\.xlsx)$')
+    # 'report': re.compile('.*(\.xlsx)$')
 }
 
 # ini = open_ini_file.inst()
