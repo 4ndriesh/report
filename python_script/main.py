@@ -125,13 +125,13 @@ if __name__ == "__main__":
                     name_station=exist_report.loc[1,'NETNAME']
                     if yaml.get('check_dat'):
                         path_csv = os.path.join(dir.BASE_DIR_DAT, '{0}{1}{2}'.format(name_station.lower(),'#1', '.txt'))
-                        exist_dat=pd
+                        # exist_dat=pd
                         if (os.path.exists(path_csv)):
-                            exist_dat = xlsx.read_csv(path_csv, skiprows=0, delimiter=';')
+                            exist_dat = xlsx.read_csv(path_csv, skiprows=0, delimiter='\t').loc[2:,:]
                         else:
                             path_csv = os.path.join(dir.BASE_DIR_DAT,'{0}{1}{2}'.format(name_station.upper(), '#1', '.txt'))
-                            if (os.path.exists(path_csv)):
-                                exist_dat = xlsx.read_csv(path_csv, skiprows=0, delimiter='\t').loc[2:,:]
+                        if (os.path.exists(path_csv)):
+                            exist_dat = xlsx.read_csv(path_csv, skiprows=0, delimiter='\t').loc[2:,:]
                         if not exist_dat.empty:
                             list_col=list(exist_dat.columns.values)
                             # ls = exist_dat.loc[2:,:].values.tolist()
@@ -149,6 +149,8 @@ if __name__ == "__main__":
                             dictTmp={GrImp:listcolumn,SIGN:ls}
                             df = pd.DataFrame(dictTmp)
                             df=df.drop(df.index[df[SIGN]=='*'])
+                            TS[GrImp]=TS[GrImp].replace('—', '--', regex=True)
+                            TS=TS.drop(TS.index[TS[GrImp].str.contains('П-|A-|B-|А-|Б-')])
                             merged = df.merge(TS.loc[:,[GrImp,SIGN]], indicator=True, how='outer').drop_duplicates(subset=[GrImp,SIGN], keep=False)
                             t = merged[merged['_merge'] != 'both']
                             t = t.replace({'_merge': {'left_only': 'ПО', 'right_only': 'Проект'}})
@@ -157,6 +159,7 @@ if __name__ == "__main__":
                     df2=exist_report.reset_index()
                     df2 = df2.loc[:, [Name_TU, Kod_PU]]
                     df1 = dictMaket.get(key)
+                    df1[Name_TU] = df1[Name_TU].str.rstrip()
                     df1=df1.loc[:,[Name_TU,Kod_PU]].fillna('')
                     df1=df1.loc[df1[Kod_PU]!=''].reset_index()
                     df1 = df1.loc[:, [Name_TU, Kod_PU]]
@@ -170,12 +173,13 @@ if __name__ == "__main__":
                     t[Kod_PU] = t[Kod_PU].apply(hex)
                     t=t.replace({'_merge': {'left_only': 'Проект', 'right_only': 'ПО'}})
                     dictMaket.update({key: t})
-                    path_temp = os.path.join(dir.BASE_DIR, *yaml.get('name_tampl_csv'))
-                    path_csv = os.path.join(dir.BASE_DIR_CSV,
-                                                 '{0}{1}{2}'.format('Ведомость ', stationTS, '  csv.xlsx'))
-                    xlsx.copy_xlsx(path_temp, path_csv)
+                    if not dictMaket.get('ТУ').empty or not dictMaket.get('ТС').empty:
+                        path_temp = os.path.join(dir.BASE_DIR, *yaml.get('name_tampl_csv'))
+                        path_csv = os.path.join(dir.BASE_DIR_CSV,
+                                                     '{0}{1}{2}'.format('Ведомость ', stationTS, '  csv.xlsx'))
+                        xlsx.copy_xlsx(path_temp, path_csv)
 
-                    xlsx.write_to_excel(dictMaket, 7, 0, path_csv, stationTS)
+                        xlsx.write_to_excel(dictMaket, 7, 0, path_csv, stationTS)
 
 
     # qml()

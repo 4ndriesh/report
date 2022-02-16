@@ -1,9 +1,9 @@
-file_prj: [ "project","Проект Бамовская-Нерюнгри 20220202.xlsx" ]
+file_prj: [ "project","" ]
 
 create_maket: False
-merge_reports: False
-check_dat: True
-check_csv: True
+merge_reports: True
+check_dat: False
+check_csv: False
 
 name_tampl: [ "temp","Tamplate.xlsx" ]
 name_tampl_maket: [ "temp","Tamplate_maket.xlsx" ]
