@@ -84,6 +84,10 @@ celerybeat-schedule
 
 # SageMath parsed files
 *.sage.py
+*.csv
+*.xlsx
+*.zip
+*.rar
 
 # Environments
 .env
