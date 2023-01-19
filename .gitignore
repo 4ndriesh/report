@@ -123,4 +123,10 @@ venv.bak/
 /python_script/qml/Highlightcomp.qmlc
 /python_script/qml/Main.qmlc
 /out_in_data/project/
-/out_in_data/
+/out_in_data/csv/
+/out_in_data/dat/
+/out_in_data/dat_maket/
+/out_in_data/exreport/
+/out_in_data/report/
+
+
