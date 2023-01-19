@@ -123,3 +123,5 @@ venv.bak/
 /python_script/qml/Project.qmlc
 /python_script/qml/Highlightcomp.qmlc
 /python_script/qml/Main.qmlc
+/out_in_data/project/
+/out_in_data/

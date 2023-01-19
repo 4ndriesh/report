@@ -6,28 +6,12 @@ import logging.config
 import yaml
 
 from singleton import singleton
-from basesetting import BaseSettings
 
 @singleton
 class Logger:
-    # __instance = None
-
-    # @staticmethod
-    # def inst():
-    #     if Logger.__instance == None:
-    #         Logger.__instance = Logger()
-    #     return Logger.__instance
-
-    # def __new__(cls, *args, **kwargs):
-    #     if cls.__instance is None:
-    #         cls.__instance=super().__new__(cls)
-    #     return cls.__instance
-
-    def __init__(self):
-        self.dir = BaseSettings()
-        path_yaml= os.path.join(self.dir.BASE_DIR_LOG, 'config.yaml')
+    def __init__(self,BASE_DIR_LOG):
         try:
-            with open(path_yaml, 'r') as f:
+            with open(BASE_DIR_LOG, 'r') as f:
                 log_cfg = yaml.safe_load(f.read())
                 logging.config.dictConfig(log_cfg)
         except Exception as e:
@@ -38,10 +22,8 @@ class Logger:
         # logger.setLevel(logging.INFO)
         logger.error(err)
 
-
     def message_info(self, mess):
         logger = logging.getLogger('info')
-
         logger.info(mess)
         return mess
 
