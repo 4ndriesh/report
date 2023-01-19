@@ -110,7 +110,6 @@ venv.bak/
 
 # mypy
 .mypy_cache/
-/report/
 /project/
 /envlinux/
 /python_script/report/
