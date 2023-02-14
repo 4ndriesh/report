@@ -8,7 +8,7 @@ authors = ["Andrey <biziuraa@gmail.com>"]
 report_sc = "main.py:main"
 
 [tool.poetry.dependencies]
-python = "^3.11.1"
+python = "^3.10.4"
 pandas = "^1.5.3"
 pyyaml = "^6.0"
 colorlog = "^6.7.0"

@@ -64,6 +64,10 @@ class Xlsx:
                                                          startcol=0,
                                                          header=False,
                                                          index=index)
-                sh = mv[Sheet]
+                sh = mv[Sheet] 
+                if(Sheet=='ТУ' or 'ТС'):
+                    sh.oddFooter.left.text=dir.CONFIG.get('Position')    
+                    sh.oddFooter.center.text=dir.CONFIG.get('Date')    
+                    sh.oddFooter.right.text= dir.CONFIG.get('Name')               
                 sh.cell(row=4, column=1, value='{0}{1}'.format('Станция ', conv_file))
             write_to_report._save()

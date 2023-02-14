@@ -42,15 +42,16 @@ if __name__ == "__main__":
                 TU = mer.tu(dataFrameTU, dataFrameTamp, sheets_tampl)
                 dictMaket.update({sheets_tampl_maket[0]: TU})
 
-            path_csv = dir.BASE_DIR_DAT_MAKET / '{0}{1}'.format(stationTS.upper(), '.txt')
-            TS_Arm = xlsx.read_csv(path=path_csv,delimiter=yaml.get('delimiterDAT'))
+            path_dat_maket = dir.BASE_DIR_DAT_MAKET / '{0}{1}'.format(stationTS.upper(), '.txt')
+            delimiterDat=yaml.get('delimiterDAT')
+            TS_Arm = xlsx.read_csv(path=path_dat_maket,delimiter=yaml.get('delimiterDAT'))
             formatTS=mer.formatTS
             TS = dataFrameTS.filter(items=formatTS).fillna('')
-            # TS = TS[~TS[formatTS[1]].str.contains('Резерв', na=False)]
+            if(dir.CONFIG.get("DelReserv")): TS = TS[~TS[formatTS[1]].str.contains('Резерв', na=False)]
             dataFrameTamp.update({sheets_tampl[0]: TS})
             if not TS_Arm.empty:
                 TS = pd.concat([TS, TS_Arm.iloc[:, [1, 2]]], axis=1)
-                TS = TS[~TS[formatTS[1]].str.contains('Резерв', na=False)]
+                # TS = TS[~TS[formatTS[1]].str.contains('Резерв', na=False)]
 
             dictMaket.update({sheets_tampl_maket[1]: TS})
             xlsx.write_to_excel(dictMaket, 6, 0, stationTS, path=path_temp_mak)
@@ -72,14 +73,14 @@ if __name__ == "__main__":
 
                 dictMaket = mer.check_csv(exist_report, dictMaket)
 
-                for path_csv in [dir.BASE_DIR_DAT, '{0}{1}{2}'.format(name_station.lower(), '#1', '.txt'),
+                for path_dat in [dir.BASE_DIR_DAT, '{0}{1}{2}'.format(name_station.lower(), '#1', '.txt'),
                                  dir.BASE_DIR_DAT, '{0}{1}{2}'.format(name_station.upper(), '#1', '.txt')]:
-                    if path_csv.exists():
-                        exist_dat = xlsx.read_csv(path=path_csv, skiprows=0, delimiter='\t').loc[2:, :]
+                    if path_dat.exists():
+                        exist_dat = xlsx.read_csv(path=path_dat, skiprows=0, delimiter='\t').loc[2:, :]
                         dictMaket = mer.check_dat(exist_dat.loc[2:, :], dictMaket, TS)
 
                 if not dictMaket.get('ТУ').empty or not dictMaket.get('ТС').empty:
-                    path_csv = dir.BASE_DIR_CSV, '{0}{1}{2}'.format('Ведомость ', stationTS, '  csv.xlsx')
-                    xlsx.copy_xlsx(dir.BASE_DIR_TAMPL_CSV, path_csv)
-                    xlsx.write_to_excel(dictMaket, 7, 0, stationTS, path=path_csv)
+                    path_rep_csv = dir.BASE_DIR_CSV, '{0}{1}{2}'.format('Ведомость ', stationTS, '  csv.xlsx')
+                    xlsx.copy_xlsx(dir.BASE_DIR_TAMPL_CSV, path_rep_csv)
+                    xlsx.write_to_excel(dictMaket, 7, 0, stationTS, path=path_rep_csv)
     # qml()
